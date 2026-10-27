@@ -126,7 +126,7 @@ schedule(async () => {
 
   if (updatedFiles.length > 0) {
     const promises = updatedFiles.map(async (fileName) => {
-      const res = await danger.github.api.repos.getContents({
+      const res = await danger.github.api.repos.getContent({
         owner: danger.github.pr.user.login,
         repo: danger.github.pr.head.repo.name,
         path: fileName,
