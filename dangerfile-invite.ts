@@ -26,15 +26,15 @@ Matt & Brendan
     // This throws if the user isn't a member of the org yet. If it doesn't
     // throw, then it means the user was already invited or has already
     // accepted the invitation (we ignore the return value here).
-    await api.orgs.checkMembership({ org, username });
+    await api.orgs.checkMembershipForUser({ org, username });
   } catch (error) {
     // Search to check if user has had a PR merged before
     const query = `org:${org}+author:${username}+type:pr+is:merged`;
-    await api.search.issues({ q: query }).then(async (res) => {
+    await api.search.issuesAndPullRequests({ q: query }).then(async (res) => {
       const mergedPrCount = res.data.total_count;
       if (mergedPrCount === 1) {
         markdown(inviteMarkdown);
-        await api.orgs.addOrUpdateMembership({ org, username, role: "member" });
+        await api.orgs.setMembershipForUser({ org, username, role: "member" });
       }
     });
   }
